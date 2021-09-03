@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * @author zhuofan.han
+ * @date 2021/9/2
  */
 @SpringBootApplication
 public class StudyDemoApplication {
