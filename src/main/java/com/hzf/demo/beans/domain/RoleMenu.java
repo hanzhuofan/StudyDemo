@@ -1,4 +1,4 @@
-package com.hzf.demo.persistent;
+package com.hzf.demo.beans.domain;
 
 import lombok.*;
 import org.hibernate.Hibernate;
@@ -16,10 +16,10 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "user_role", schema = "demo")
-public class UserRole {
+@Table(name = "role_menu", schema = "demo")
+public class RoleMenu {
     @EmbeddedId
-    private UserRoleId id;
+    private RoleMenuId id;
 
     @Override
     public boolean equals(Object o) {
@@ -29,9 +29,9 @@ public class UserRole {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
-        UserRole userRole = (UserRole) o;
+        RoleMenu roleMenu = (RoleMenu) o;
 
-        return Objects.equals(id, userRole.id);
+        return Objects.equals(id, roleMenu.id);
     }
 
     @Override
@@ -41,11 +41,11 @@ public class UserRole {
 
     @Data
     @Embeddable
-    public static class UserRoleId implements Serializable {
-        @Column(name = "user_id")
-        private Long userId;
-
+    public static class RoleMenuId implements Serializable {
         @Column(name = "role_id")
         private Long roleId;
+
+        @Column(name = "menu_id")
+        private Long menuId;
     }
 }

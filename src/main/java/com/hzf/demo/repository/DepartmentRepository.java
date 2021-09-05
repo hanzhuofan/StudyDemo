@@ -1,6 +1,6 @@
 package com.hzf.demo.repository;
 
-import com.hzf.demo.domain.Department;
+import com.hzf.demo.beans.domain.Department;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.transaction.Transactional;

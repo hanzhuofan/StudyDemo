@@ -1,6 +1,6 @@
 package com.hzf.demo.repository;
 
-import com.hzf.demo.domain.User;
+import com.hzf.demo.beans.domain.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 

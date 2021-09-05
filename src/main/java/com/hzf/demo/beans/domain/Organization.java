@@ -1,4 +1,4 @@
-package com.hzf.demo.domain;
+package com.hzf.demo.beans.domain;
 
 /**
  * @author zhuofan.han

@@ -1,9 +1,6 @@
-package com.hzf.demo.domain;
+package com.hzf.demo.beans.domain;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.Hibernate;
 
 import javax.persistence.*;
@@ -11,34 +8,25 @@ import java.util.Objects;
 
 /**
  * @author zhuofan.han
- * @date 2021/9/3
+ * @date 2021/9/2
  */
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
 @Entity
-@Table(name = "department", schema = "demo")
-public class Department {
+@Table(name = "user", schema = "demo")
+public class SimpleUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "username")
+    private String username;
 
-    @Column(name = "description")
-    private String description;
-
-    @Column(name = "status")
-    private Integer status;
-
-    @Column(name = "user_id")
-    private Long userId;
-
-    @Column(name = "parent_id")
-    private Long parentId;
+    @Column(name = "password")
+    private String password;
 
     @Override
     public boolean equals(Object o) {
@@ -48,13 +36,13 @@ public class Department {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
-        Department that = (Department) o;
+        SimpleUser that = (SimpleUser) o;
 
         return Objects.equals(id, that.id);
     }
 
     @Override
     public int hashCode() {
-        return 1487346027;
+        return 1486489462;
     }
 }

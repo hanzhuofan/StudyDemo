@@ -1,6 +1,6 @@
 package com.hzf.demo.repository;
 
-import com.hzf.demo.persistent.RoleMenu;
+import com.hzf.demo.beans.domain.RoleMenu;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.transaction.Transactional;

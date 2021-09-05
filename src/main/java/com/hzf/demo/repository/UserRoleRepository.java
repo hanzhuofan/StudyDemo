@@ -1,6 +1,6 @@
 package com.hzf.demo.repository;
 
-import com.hzf.demo.persistent.UserRole;
+import com.hzf.demo.beans.domain.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

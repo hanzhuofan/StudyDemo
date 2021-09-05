@@ -1,6 +1,6 @@
 package com.hzf.demo.repository;
 
-import com.hzf.demo.persistent.SimpleUser;
+import com.hzf.demo.beans.domain.SimpleUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
