@@ -1,6 +1,5 @@
 package com.hzf.demo.common.config.security;
 
-import com.hzf.demo.beans.domain.Menu;
 import com.hzf.demo.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
@@ -8,8 +7,8 @@ import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
 
+import java.math.BigInteger;
 import java.util.Collection;
 import java.util.List;
 
@@ -22,20 +21,13 @@ public class RoleMetadataSource implements FilterInvocationSecurityMetadataSourc
     @Autowired
     private MenuRepository menuRepository;
 
-    private final AntPathMatcher antPathMatcher = new AntPathMatcher();
-
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
-        String requestUrl = ((FilterInvocation) object).getRequestUrl();
-        List<Menu> allMenu = menuRepository.findAll();
-        for (Menu menu : allMenu) {
-            if (antPathMatcher.match(menu.getUrl(), requestUrl) && menu.getAuthorities().size() > 0) {
-                String[] roleIds = menu.getAuthorities().stream().map(r -> r.getId().toString()).toArray(String[]::new);
-                return SecurityConfig.createList(roleIds);
-            }
-        }
-        // TODO
-        return SecurityConfig.createList();
+        FilterInvocation filterInvocation = (FilterInvocation) object;
+        String requestUrl = filterInvocation.getRequestUrl();
+        String method = filterInvocation.getHttpRequest().getMethod();
+        List<BigInteger> authorities = menuRepository.findAuthorities(requestUrl, method);
+        return SecurityConfig.createList(authorities.stream().map(BigInteger::toString).toArray(String[]::new));
     }
 
     @Override

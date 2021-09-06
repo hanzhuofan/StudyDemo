@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 @ResponseBody
 public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
     @ExceptionHandler(BindException.class)
     public Result<?> bindExceptionHandler(final BindException e) {
         log.error("", e);
@@ -39,6 +38,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.OK)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Result<?> handler(final MethodArgumentNotValidException e) {
+        log.error("", e);
         String message = e.getBindingResult().getAllErrors().stream()
             .map(DefaultMessageSourceResolvable::getDefaultMessage).limit(1).collect(Collectors.joining());
         String arg = e.getBindingResult().getAllErrors().stream().map(o -> ((FieldError)o).getField()).limit(1)
@@ -47,7 +47,6 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
     @ExceptionHandler(ConstraintViolationException.class)
     public Result<?> handler(final ConstraintViolationException e) {
         log.error("", e);
@@ -57,7 +56,6 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public Result<?> handler(MissingServletRequestParameterException e) {
         log.error("", e);
@@ -65,7 +63,6 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public Result<?> handler(HttpMessageNotReadableException e) {
         log.error("", e);

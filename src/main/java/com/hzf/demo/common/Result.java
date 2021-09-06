@@ -38,7 +38,7 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> of(Integer code, String msg) {
-        return of(code, MessageUtils.get(msg), new Object[0]);
+        return of(code, msg, new Object[0]);
     }
 
     public static <T> Result<T> of(String msg, Object[] args) {

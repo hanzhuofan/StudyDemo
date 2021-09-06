@@ -1,6 +1,7 @@
 package com.hzf.demo.controller;
 
 import com.hzf.demo.beans.vo.OrganizationVO;
+import com.hzf.demo.common.Constants;
 import com.hzf.demo.common.Result;
 import com.hzf.demo.service.OrganizationService;
 import com.hzf.demo.utils.MessageUtils;
@@ -20,13 +21,13 @@ import javax.validation.Valid;
 public class OrganizationController {
     private final OrganizationService organizationService;
 
-    @PostMapping(value = "v1/save", produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "v1/save", produces = {Constants.CONTENT_TYPE})
     public Result<?> save(@Valid @RequestBody OrganizationVO body) {
         organizationService.save(body);
         return Result.ok();
     }
 
-    @GetMapping("test")
+    @GetMapping(value = "test", produces = {Constants.CONTENT_TYPE})
     public Result<?> test(@RequestParam(required = false, defaultValue = "test") String msgKey) {
         return Result.ok(MessageUtils.get(msgKey));
     }

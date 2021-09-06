@@ -29,7 +29,7 @@ public class MessageUtils {
         try {
             return messageSource.getMessage(msgKey, args, locale);
         } catch (Exception e) {
-            log.error("[MessageUtils::get] {} does not exist in {}", msgKey, locale.getLanguage());
+            log.error("[MessageUtils::get] msgKey[{}] does not exist in {}", msgKey, locale.getLanguage());
             return msgKey;
         }
     }

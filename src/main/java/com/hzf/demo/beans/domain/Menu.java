@@ -37,6 +37,9 @@ public class Menu {
     @Column(name = "url")
     private String url;
 
+    @Column(name = "method")
+    private String method;
+
     @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinTable(schema = "demo", name = "role_menu", joinColumns = {@JoinColumn(name = "menu_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})

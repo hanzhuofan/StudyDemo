@@ -1,8 +1,8 @@
 package com.hzf.demo.common.config.security;
 
+import com.hzf.demo.common.Constants;
 import com.hzf.demo.common.Result;
 import com.hzf.demo.utils.JSON;
-import org.springframework.http.MediaType;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,7 +35,7 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
             msg = "login.disabled";
         }
 
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+        response.setContentType(Constants.CONTENT_TYPE);
         response.getWriter().write(JSON.toJSONString(Result.of(msg)));
     }
 }

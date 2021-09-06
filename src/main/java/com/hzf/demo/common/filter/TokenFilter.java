@@ -9,9 +9,7 @@ import com.hzf.demo.utils.JSON;
 import com.hzf.demo.utils.TokenUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tomcat.util.http.MimeHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
@@ -22,7 +20,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.Field;
 
 /**
  * @author zhuofan.han
@@ -39,13 +36,13 @@ public class TokenFilter extends OncePerRequestFilter {
         throws IOException, ServletException {
         String token = request.getHeader("token");
         if (StringUtils.isBlank(token)) {
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setContentType(Constants.CONTENT_TYPE);
             response.getWriter().write(JSON.toJSONString(Result.of("login.not")));
             return;
         }
 
         if (!TokenUtils.verifyToken(token)) {
-            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.setContentType(Constants.CONTENT_TYPE);
             response.getWriter().write(JSON.toJSONString(Result.of("login.invalid")));
             return;
         }
@@ -55,27 +52,8 @@ public class TokenFilter extends OncePerRequestFilter {
         loginToken.setDetails(new WebAuthenticationDetails(request));
         SecurityContextHolder.getContext().setAuthentication(loginToken);
 
-        // reflectAddHeader(request, Constants.LANGUAGE_PARAM_NAME, user.getLang());
         CustomHttpServletRequest request2 = new CustomHttpServletRequest(request);
         request2.addHeader(Constants.LANGUAGE_PARAM_NAME, user.getLang());
         filterChain.doFilter(request2, response);
-    }
-
-    private void reflectAddHeader(HttpServletRequest request, String key, String value) {
-        Class<? extends HttpServletRequest> requestClass = request.getClass();
-        try {
-            Field request1 = requestClass.getDeclaredField("request");
-            request1.setAccessible(true);
-            Object o = request1.get(request);
-            Field coyoteRequest = o.getClass().getDeclaredField("coyoteRequest");
-            coyoteRequest.setAccessible(true);
-            Object o1 = coyoteRequest.get(o);
-            Field headers = o1.getClass().getDeclaredField("headers");
-            headers.setAccessible(true);
-            MimeHeaders o2 = (MimeHeaders)headers.get(o1);
-            o2.addValue(key).setString(value);
-        } catch (Exception e) {
-            log.error("Add header[key] error", e);
-        }
     }
 }
