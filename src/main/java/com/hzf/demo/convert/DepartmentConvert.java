@@ -1,8 +1,8 @@
 package com.hzf.demo.convert;
 
 import com.hzf.demo.beans.domain.Department;
-import com.hzf.demo.beans.dto.DepartmentDto;
-import com.hzf.demo.beans.vo.DepartmentVo;
+import com.hzf.demo.beans.dto.DepartmentDTO;
+import com.hzf.demo.beans.vo.DepartmentVO;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
@@ -18,16 +18,16 @@ import java.util.stream.Collectors;
  */
 @Mapper(componentModel = "spring")
 public interface DepartmentConvert {
-    DepartmentVo do2vo(Department department);
+    DepartmentVO do2vo(Department department);
 
-    List<DepartmentVo> do2vos(List<Department> departments);
+    List<DepartmentVO> do2vos(List<Department> departments);
 
     @AfterMapping
-    default List<DepartmentVo> treeifyDepartmentVo(@MappingTarget List<DepartmentVo> departmentVos) {
-        Map<Long, DepartmentVo> dtoMap = departmentVos.stream().collect(Collectors.toMap(DepartmentVo::getId, a -> a));
-        List<DepartmentVo> resultList = new ArrayList<>();
-        for (Map.Entry<Long, DepartmentVo> entry : dtoMap.entrySet()) {
-            DepartmentVo node = entry.getValue();
+    default List<DepartmentVO> treeifyDepartmentVo(@MappingTarget List<DepartmentVO> departmentVOS) {
+        Map<Long, DepartmentVO> dtoMap = departmentVOS.stream().collect(Collectors.toMap(DepartmentVO::getId, a -> a));
+        List<DepartmentVO> resultList = new ArrayList<>();
+        for (Map.Entry<Long, DepartmentVO> entry : dtoMap.entrySet()) {
+            DepartmentVO node = entry.getValue();
             if (node.getParentId() == null) {
                 resultList.add(node);
             } else {
@@ -39,16 +39,16 @@ public interface DepartmentConvert {
         return resultList;
     }
 
-    DepartmentDto do2dto(Department department);
+    DepartmentDTO do2dto(Department department);
 
-    List<DepartmentDto> do2dtos(List<Department> departments);
+    List<DepartmentDTO> do2dtos(List<Department> departments);
 
     @AfterMapping
-    default List<DepartmentDto> treeifyDepartmentDto(@MappingTarget List<DepartmentDto> departmentVos) {
-        Map<Long, DepartmentDto> dtoMap = departmentVos.stream().collect(Collectors.toMap(DepartmentDto::getId, a -> a));
-        List<DepartmentDto> resultList = new ArrayList<>();
-        for (Map.Entry<Long, DepartmentDto> entry : dtoMap.entrySet()) {
-            DepartmentDto node = entry.getValue();
+    default List<DepartmentDTO> treeifyDepartmentDto(@MappingTarget List<DepartmentDTO> departmentVos) {
+        Map<Long, DepartmentDTO> dtoMap = departmentVos.stream().collect(Collectors.toMap(DepartmentDTO::getId, a -> a));
+        List<DepartmentDTO> resultList = new ArrayList<>();
+        for (Map.Entry<Long, DepartmentDTO> entry : dtoMap.entrySet()) {
+            DepartmentDTO node = entry.getValue();
             if (node.getParentId() == null) {
                 resultList.add(node);
             } else {

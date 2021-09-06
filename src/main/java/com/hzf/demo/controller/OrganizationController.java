@@ -1,10 +1,11 @@
 package com.hzf.demo.controller;
 
-import com.hzf.demo.beans.vo.OrganizationVo;
+import com.hzf.demo.beans.vo.OrganizationVO;
 import com.hzf.demo.common.Result;
 import com.hzf.demo.service.OrganizationService;
 import com.hzf.demo.utils.MessageUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -19,8 +20,8 @@ import javax.validation.Valid;
 public class OrganizationController {
     private final OrganizationService organizationService;
 
-    @PostMapping("v1/save")
-    public Result<?> save(@Valid @RequestBody OrganizationVo body) {
+    @PostMapping(value = "v1/save", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Result<?> save(@Valid @RequestBody OrganizationVO body) {
         organizationService.save(body);
         return Result.ok();
     }

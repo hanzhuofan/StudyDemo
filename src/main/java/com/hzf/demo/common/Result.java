@@ -29,16 +29,24 @@ public class Result<T> implements Serializable {
         return of(ResultEnum.OK, data);
     }
 
-    public static <T> Result<T> bad() {
+    public static <T> Result<T> of() {
         return of(ResultEnum.BAD);
     }
 
-    public static <T> Result<T> bad(String msg) {
-        return bad(ResultEnum.BAD.getCode(), msg);
+    public static <T> Result<T> of(String msg) {
+        return of(ResultEnum.BAD.getCode(), msg);
     }
 
-    public static <T> Result<T> bad(Integer code, String msg) {
-        return new Result<>(code, MessageUtils.get(msg));
+    public static <T> Result<T> of(Integer code, String msg) {
+        return of(code, MessageUtils.get(msg), new Object[0]);
+    }
+
+    public static <T> Result<T> of(String msg, Object[] args) {
+        return of(ResultEnum.BAD.getCode(), msg, args);
+    }
+
+    public static <T> Result<T> of(Integer code, String msg, Object[] args) {
+        return new Result<>(code, MessageUtils.get(msg, args));
     }
 
     public static <T> Result<T> of(ResultEnum resultEnum) {
@@ -46,6 +54,10 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> of(ResultEnum resultEnum, T data) {
-        return new Result<>(resultEnum.getCode(), MessageUtils.get(resultEnum.getMsg()), data);
+        return of(resultEnum, new Object[0], data);
+    }
+
+    public static <T> Result<T> of(ResultEnum resultEnum, Object[] args, T data) {
+        return new Result<>(resultEnum.getCode(), MessageUtils.get(resultEnum.getMsg(), args), data);
     }
 }

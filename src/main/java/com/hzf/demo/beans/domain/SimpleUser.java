@@ -28,6 +28,18 @@ public class SimpleUser {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "account_non_expired", columnDefinition = "boolean default true")
+    private boolean accountNonExpired = true;
+
+    @Column(name = "account_non_locked", columnDefinition = "boolean default true")
+    private boolean accountNonLocked = true;
+
+    @Column(name = "credentials_non_expired", columnDefinition = "boolean default true")
+    private boolean credentialsNonExpired = true;
+
+    @Column(name = "enabled", columnDefinition = "boolean default true")
+    private Boolean enabled = true;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

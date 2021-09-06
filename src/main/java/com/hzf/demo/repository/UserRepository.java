@@ -17,4 +17,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Override
     @EntityGraph(value = "UserEntityGraph", type = EntityGraph.EntityGraphType.LOAD)
     List<User> findAll();
+
+    User findByUsername(String username);
 }

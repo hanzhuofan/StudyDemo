@@ -21,9 +21,13 @@ public class MessageUtils {
     }
 
     public static String get(String msgKey) {
+        return get(msgKey, new Object[0]);
+    }
+
+    public static String get(String msgKey, Object[] args) {
         Locale locale = LocaleContextHolder.getLocale();
         try {
-            return messageSource.getMessage(msgKey, null, locale);
+            return messageSource.getMessage(msgKey, args, locale);
         } catch (Exception e) {
             log.error("[MessageUtils::get] {} does not exist in {}", msgKey, locale.getLanguage());
             return msgKey;

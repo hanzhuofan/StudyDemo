@@ -23,8 +23,6 @@ import java.util.Locale;
 @Configuration
 @RequiredArgsConstructor
 public class LocaleConfig implements WebMvcConfigurer {
-    private final LocaleChangeInterceptor localeChangeInterceptor;
-
     private final ResourceBundleMessageSource resourceBundleMessageSource;
 
     @Bean
@@ -43,7 +41,7 @@ public class LocaleConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(localeChangeInterceptor);
+        registry.addInterceptor(i18nInterceptor());
     }
 
     @Bean

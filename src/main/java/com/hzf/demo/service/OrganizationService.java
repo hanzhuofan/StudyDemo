@@ -1,6 +1,6 @@
 package com.hzf.demo.service;
 
-import com.hzf.demo.beans.vo.OrganizationVo;
+import com.hzf.demo.beans.vo.OrganizationVO;
 import org.springframework.stereotype.Service;
 
 /**
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class OrganizationService {
-    public void save(OrganizationVo body) {
+    public void save(OrganizationVO body) {
 
     }
 }

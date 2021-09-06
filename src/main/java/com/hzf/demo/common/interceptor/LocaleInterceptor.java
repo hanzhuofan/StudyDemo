@@ -14,10 +14,8 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2021/9/5
  */
 public class LocaleInterceptor extends LocaleChangeInterceptor {
-
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-        throws ServletException {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String newLocale = request.getHeader(getParamName());
         if (newLocale != null) {
             if (checkHttpMethod(request.getMethod())) {
