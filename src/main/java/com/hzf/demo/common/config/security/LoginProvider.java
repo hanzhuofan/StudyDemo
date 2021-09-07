@@ -1,6 +1,5 @@
 package com.hzf.demo.common.config.security;
 
-import com.hzf.demo.beans.LoginToken;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -30,9 +29,9 @@ public class LoginProvider implements AuthenticationProvider {
 
         additionalAuthenticationChecks(userDetails, loginToken);
 
-        LoginToken authenticatedToken = new LoginToken(loginToken.getUser(), userDetails.getAuthorities());
-        authenticatedToken.setDetails(loginToken.getDetails());
-        return authenticatedToken;
+        LoginToken token = new LoginToken(loginToken.getUser(), userDetails.getAuthorities());
+        token.setDetails(loginToken.getDetails());
+        return token;
     }
 
     @Override

@@ -30,9 +30,6 @@ class StudyDemoApplicationTests {
     @Autowired
     DepartmentRepository departmentRepository;
 
-    @Autowired
-    DepartmentConvert departmentConvert;
-
     @Test
     void contextLoads() {
         Role role = new Role();
@@ -102,7 +99,7 @@ class StudyDemoApplicationTests {
         departmentRepository.save(child11);
 
         List<Department> departments = departmentRepository.findAll();
-        departmentConvert.do2dtos(departments).forEach(System.out::println);
-        departmentConvert.do2vos(departments).forEach(System.out::println);
+        DepartmentConvert.INSTANCE.do2dtos(departments).forEach(System.out::println);
+        DepartmentConvert.INSTANCE.do2vos(departments).forEach(System.out::println);
     }
 }

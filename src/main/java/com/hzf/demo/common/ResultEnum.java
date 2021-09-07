@@ -9,6 +9,7 @@ public enum ResultEnum {
      * Custom return result: msg is i18n key
      */
     OK(0, "result.success"),
+    OUT(0, "logout.success"),
     BAD(500, "result.fail"),
     NO_RIGHT(1001,"login.not.right");
     private final Integer code;

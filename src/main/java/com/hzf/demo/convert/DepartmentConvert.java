@@ -6,6 +6,7 @@ import com.hzf.demo.beans.vo.DepartmentVO;
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
+import org.mapstruct.factory.Mappers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,10 @@ import java.util.stream.Collectors;
  * @author hanzhuofan
  * @date 2021/9/4 14:12
  */
-@Mapper(componentModel = "spring")
+@Mapper
 public interface DepartmentConvert {
+    DepartmentConvert INSTANCE = Mappers.getMapper(DepartmentConvert.class);
+
     DepartmentVO do2vo(Department department);
 
     List<DepartmentVO> do2vos(List<Department> departments);

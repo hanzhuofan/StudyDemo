@@ -1,9 +1,11 @@
 package com.hzf.demo.common.filter;
 
-import com.hzf.demo.beans.LoginToken;
+import com.hzf.demo.common.config.security.LoginToken;
 import com.hzf.demo.beans.vo.LoginUserVO;
+import com.hzf.demo.convert.UserConvert;
 import com.hzf.demo.utils.JSON;
 import lombok.SneakyThrows;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -30,8 +32,10 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
                 sb.append(str);
             }
             loginUserVO = JSON.parseObject(sb.toString(), LoginUserVO.class);
+        } catch (Exception e) {
+            throw new AuthenticationServiceException("Authentication error: " + e.getMessage());
         }
-        LoginToken loginToken = new LoginToken(loginUserVO);
+        LoginToken loginToken = new LoginToken(UserConvert.INSTANCE.vo2dto(loginUserVO));
         loginToken.setDetails(new WebAuthenticationDetails(request));
         return this.getAuthenticationManager().authenticate(loginToken);
     }

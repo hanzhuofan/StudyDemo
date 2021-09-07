@@ -1,6 +1,7 @@
 package com.hzf.demo.common.config.security;
 
 import com.hzf.demo.common.filter.LoginFilter;
+import com.hzf.demo.common.filter.OptionsRequestFilter;
 import com.hzf.demo.common.filter.TokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,6 +25,9 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.web.filter.CorsFilter;
 
 /**
  * @author zhuofan.han
@@ -37,8 +40,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
     @Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
     @Autowired
@@ -53,10 +54,16 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private AccessDecisionManager accessDecisionManager;
     @Autowired
     TokenFilter tokenFilter;
+    @Autowired
+    OptionsRequestFilter optionsRequestFilter;
+    @Autowired
+    LogoutHandler logoutHandler;
+    @Autowired
+    LogoutSuccessHandler logoutSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        LoginProvider loginProvider = new LoginProvider(userDetailsService, passwordEncoder);
+        LoginProvider loginProvider = new LoginProvider(userDetailsService, passwordEncoder());
 
         http.authenticationProvider(loginProvider).authorizeRequests()
             .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
@@ -66,16 +73,17 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                     object.setAccessDecisionManager(accessDecisionManager);
                     return object;
                 }
-            }).anyRequest().authenticated().and().formLogin();
+            }).anyRequest().authenticated().and().formLogin().and().logout().addLogoutHandler(logoutHandler)
+            .logoutSuccessHandler(logoutSuccessHandler);
 
         LoginFilter loginFilter = new LoginFilter();
         loginFilter.setAuthenticationManager(authenticationManagerBean());
         loginFilter.setAuthenticationSuccessHandler(authenticationSuccessHandler);
         loginFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
 
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable()
+        http.sessionManagement().disable().cors().disable().csrf().disable()
             .addFilterAt(loginFilter, UsernamePasswordAuthenticationFilter.class)
-            .addFilterAfter(tokenFilter, LoginFilter.class);
+            .addFilterAfter(tokenFilter, LoginFilter.class).addFilterAfter(optionsRequestFilter, CorsFilter.class);
 
         http.exceptionHandling().accessDeniedHandler(accessDeniedHandler)
             .authenticationEntryPoint(authenticationEntryPoint);

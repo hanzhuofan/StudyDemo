@@ -16,7 +16,7 @@ import java.util.Collection;
  * @date 2021/9/6
  */
 @Component
-public class UrlAccessDecisionManager implements AccessDecisionManager {
+public class RoleAccessDecisionManager implements AccessDecisionManager {
     @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
         for (ConfigAttribute ca : configAttributes) {

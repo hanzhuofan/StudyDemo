@@ -1,6 +1,6 @@
-package com.hzf.demo.beans;
+package com.hzf.demo.common.config.security;
 
-import com.hzf.demo.beans.vo.LoginUserVO;
+import com.hzf.demo.beans.dto.LoginUserDTO;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -11,15 +11,15 @@ import java.util.Collection;
  * @date 2021/9/6
  */
 public class LoginToken extends AbstractAuthenticationToken {
-    private final LoginUserVO user;
+    private final LoginUserDTO user;
 
-    public LoginToken(LoginUserVO user) {
+    public LoginToken(LoginUserDTO user) {
         super(null);
         this.user = user;
         setAuthenticated(false);
     }
 
-    public LoginToken(LoginUserVO user, Collection<? extends GrantedAuthority> authorities) {
+    public LoginToken(LoginUserDTO user, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.user = user;
         super.setAuthenticated(true);
@@ -39,7 +39,7 @@ public class LoginToken extends AbstractAuthenticationToken {
         return user.getLang();
     }
 
-    public LoginUserVO getUser() {
+    public LoginUserDTO getUser() {
         return user;
     }
 }

@@ -3,6 +3,7 @@ package com.hzf.demo.service;
 import com.hzf.demo.beans.domain.Menu;
 import com.hzf.demo.beans.domain.Role;
 import com.hzf.demo.beans.domain.User;
+import com.hzf.demo.beans.dto.LoginUserDTO;
 import com.hzf.demo.repository.MenuRepository;
 import com.hzf.demo.repository.RoleRepository;
 import com.hzf.demo.repository.UserRepository;
@@ -11,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author zhuofan.han
@@ -26,6 +29,20 @@ public class UserService {
     RoleRepository roleRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    private static final Map<String, LoginUserDTO> LOGIN_CACHE = new ConcurrentHashMap<>();
+
+    public void login(LoginUserDTO loginUserDTO) {
+        LOGIN_CACHE.putIfAbsent(loginUserDTO.getUsername(), loginUserDTO);
+    }
+
+    public Boolean isLogin(LoginUserDTO loginUserDTO) {
+        return LOGIN_CACHE.containsKey(loginUserDTO.getUsername());
+    }
+
+    public void logout(LoginUserDTO loginUserDTO) {
+        LOGIN_CACHE.remove(loginUserDTO.getUsername());
+    }
 
     @PostConstruct
     public void init() {
