@@ -38,7 +38,7 @@ public class TokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws IOException, ServletException {
+        throws IOException, ServletException {
         String token = request.getHeader(Constants.TOKEN);
         if (StringUtils.isBlank(token)) {
             response.setContentType(Constants.CONTENT_TYPE);
@@ -65,7 +65,7 @@ public class TokenFilter extends OncePerRequestFilter {
 
         CustomHttpServletRequest request2 = new CustomHttpServletRequest(request);
         request2.addHeader(Constants.LANGUAGE_PARAM_NAME, loginUserDTO.getLang());
-         filterChain.doFilter(request2, response);
+        filterChain.doFilter(request2, response);
     }
 
     public static class CustomHttpServletRequest extends HttpServletRequestWrapper {

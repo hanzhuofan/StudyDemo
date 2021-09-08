@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
-import org.springframework.context.support.DefaultMessageSourceResolvable;
+import com.hzf.demo.utils.ValidationUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -25,39 +25,52 @@ import lombok.extern.slf4j.Slf4j;
  * @date 2021/9/4
  */
 @Slf4j
+@ResponseStatus(HttpStatus.OK)
 @RestControllerAdvice
 public class ControllerAdviceHandler {
-    @ResponseStatus(HttpStatus.OK)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Result<?> handler(final MethodArgumentNotValidException e) {
+        log.error("", e);
+        String arg = e
+            .getBindingResult().getAllErrors().stream().map(o -> ValidationUtils
+                .parseProperty(((FieldError)o).getField(), ((FieldError)o).getRejectedValue(), o.getDefaultMessage()))
+            .collect(Collectors.joining());
+        return Result.of("validator.tip", new String[] {arg});
+    }
+
+    @ExceptionHandler(BindException.class)
+    public Result<?> bindExceptionHandler(final BindException e) {
+        log.error("", e);
+        String arg = e
+            .getBindingResult().getAllErrors().stream().map(o -> ValidationUtils
+                .parseProperty(((FieldError)o).getField(), ((FieldError)o).getRejectedValue(), o.getDefaultMessage()))
+            .collect(Collectors.joining());
+        return Result.of("validator.tip", new String[] {arg});
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public Result<?> handler(final ConstraintViolationException e) {
+        log.error("", e);
+        String message =
+            e.getConstraintViolations().stream().map(ConstraintViolation::getMessage).collect(Collectors.joining());
+        return Result.of(message);
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public Result<?> handler(MissingServletRequestParameterException e) {
+        log.error("", e);
+        return Result.of(e.getMessage());
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public Result<?> handler(HttpMessageNotReadableException e) {
+        log.error("", e);
+        return Result.of(e.getMessage());
+    }
+
     @ExceptionHandler(value = Exception.class)
     public Result<?> handler(Exception e) {
-        log.error("[ControllerAdvice] ", e);
-        String message = "";
-        String arg = "";
-
-        if (e instanceof BindException) {
-            message = ((BindException)e).getBindingResult().getAllErrors().stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining());
-        }
-
-        if (e instanceof MethodArgumentNotValidException) {
-            message = ((MethodArgumentNotValidException)e).getBindingResult().getAllErrors().stream()
-                .map(DefaultMessageSourceResolvable::getDefaultMessage).limit(1).collect(Collectors.joining());
-            arg = ((MethodArgumentNotValidException)e).getBindingResult().getAllErrors().stream()
-                .map(o -> ((FieldError)o).getField()).limit(1).collect(Collectors.joining());
-        }
-
-        if (e instanceof ConstraintViolationException) {
-            message = ((ConstraintViolationException)e).getConstraintViolations().stream()
-                .map(ConstraintViolation::getMessage).collect(Collectors.joining());
-        }
-
-        if (e instanceof MissingServletRequestParameterException) {
-            message = ((MissingServletRequestParameterException)e).getMessage();
-        }
-
-        if (e instanceof HttpMessageNotReadableException) {
-            message = ((HttpMessageNotReadableException)e).getMessage();
-        }
-        return Result.of(message, new String[] {arg});
+        log.error("", e);
+        return Result.of(e.getMessage());
     }
 }

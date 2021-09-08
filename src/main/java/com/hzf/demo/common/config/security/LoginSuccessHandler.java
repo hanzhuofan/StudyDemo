@@ -5,7 +5,9 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.hzf.demo.common.interceptor.LocaleInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -18,6 +20,7 @@ import com.hzf.demo.common.Result;
 import com.hzf.demo.service.UserService;
 import com.hzf.demo.utils.JSON;
 import com.hzf.demo.utils.TokenUtils;
+import org.springframework.util.StringUtils;
 
 /**
  * @author zhuofan.han
@@ -39,6 +42,7 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         }
         userService.login(loginUserDTO);
         String token = TokenUtils.createToken(loginUserDTO.getUsername());
+        LocaleContextHolder.setLocale(StringUtils.parseLocale(loginUserDTO.getLang()));
         response.getWriter().write(JSON.toJSONString(Result.ok(token)));
     }
 }

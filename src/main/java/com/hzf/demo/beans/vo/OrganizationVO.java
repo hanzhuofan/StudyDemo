@@ -12,9 +12,10 @@ import lombok.Data;
 public class OrganizationVO {
     private Long id;
 
-    @NotBlank(message = "validator.not.blank")
+    @NotBlank
     private String orgName;
 
+    @NotBlank
     private String orgAlias;
 
     private String orgDescription;

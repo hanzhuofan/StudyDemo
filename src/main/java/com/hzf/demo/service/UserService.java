@@ -34,7 +34,7 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public void login(LoginUserDTO loginUserDTO) {
-        LOGIN_CACHE.putIfAbsent(loginUserDTO.getUsername(), loginUserDTO);
+        LOGIN_CACHE.put(loginUserDTO.getUsername(), loginUserDTO);
     }
 
     public Boolean isLogin(String username) {

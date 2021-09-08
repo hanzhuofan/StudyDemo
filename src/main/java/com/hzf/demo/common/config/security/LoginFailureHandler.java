@@ -25,6 +25,7 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
         AuthenticationException exception) throws IOException {
         String msg = "login.fail";
+        Object[] args = null;
         if (exception instanceof BadCredentialsException || exception instanceof UsernameNotFoundException) {
             msg = "login.error";
         } else if (exception instanceof LockedException) {
@@ -35,9 +36,12 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
             msg = "login.expired.account";
         } else if (exception instanceof DisabledException) {
             msg = "login.disabled";
+        } else if (exception instanceof AuthenticationServiceException) {
+            msg = "login.auth.exception";
+            args = new Object[]{exception.getMessage()};
         }
 
         response.setContentType(Constants.CONTENT_TYPE);
-        response.getWriter().write(JSON.toJSONString(Result.of(msg)));
+        response.getWriter().write(JSON.toJSONString(Result.of(msg, args)));
     }
 }
