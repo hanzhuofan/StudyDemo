@@ -1,8 +1,8 @@
 package com.hzf.demo.beans.vo;
 
-import lombok.Data;
-
 import java.util.Locale;
+
+import lombok.Data;
 
 /**
  * @author zhuofan.han

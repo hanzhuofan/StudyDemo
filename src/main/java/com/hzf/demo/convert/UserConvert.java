@@ -1,10 +1,12 @@
 package com.hzf.demo.convert;
 
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
+
 import com.hzf.demo.beans.domain.UserDO;
 import com.hzf.demo.beans.dto.LoginUserDTO;
 import com.hzf.demo.beans.vo.LoginUserVO;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 
 /**
  * @author hanzhuofan
@@ -14,9 +16,10 @@ import org.mapstruct.factory.Mappers;
 public interface UserConvert {
     UserConvert INSTANCE = Mappers.getMapper(UserConvert.class);
 
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "authorities", ignore = true)
     LoginUserDTO vo2dto(LoginUserVO loginUserVO);
 
-    LoginUserVO dto2vo(LoginUserDTO loginUserDTO);
-
+    @Mapping(target = "lang", ignore = true)
     LoginUserDTO do2dto(UserDO userDO);
 }

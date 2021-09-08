@@ -1,17 +1,19 @@
 package com.hzf.demo.common.config.security;
 
-import com.hzf.demo.common.Constants;
-import com.hzf.demo.service.UserService;
-import com.hzf.demo.utils.TokenUtils;
-import lombok.SneakyThrows;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.hzf.demo.common.Constants;
+import com.hzf.demo.service.UserService;
+import com.hzf.demo.utils.TokenUtils;
+
+import lombok.SneakyThrows;
 
 /**
  * @author zhuofan.han
@@ -26,7 +28,7 @@ public class Logout2Handler implements LogoutHandler {
     @Override
     public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         String token = request.getHeader(Constants.TOKEN);
-        if (StringUtils.isBlank(token) || !TokenUtils.verifyToken(token)) {
+        if (StringUtils.isBlank(token) || TokenUtils.verifyToken(token)) {
             return;
         }
         String user = TokenUtils.getUserString(token);

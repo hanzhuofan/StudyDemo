@@ -1,17 +1,18 @@
 package com.hzf.demo.convert;
 
-import com.hzf.demo.beans.po.Department;
-import com.hzf.demo.beans.dto.DepartmentDTO;
-import com.hzf.demo.beans.vo.DepartmentVO;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.mapstruct.AfterMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import com.hzf.demo.beans.dto.DepartmentDTO;
+import com.hzf.demo.beans.po.Department;
+import com.hzf.demo.beans.vo.DepartmentVO;
 
 /**
  * @author hanzhuofan
@@ -48,7 +49,8 @@ public interface DepartmentConvert {
 
     @AfterMapping
     default List<DepartmentDTO> treeifyDepartmentDto(@MappingTarget List<DepartmentDTO> departmentVos) {
-        Map<Long, DepartmentDTO> dtoMap = departmentVos.stream().collect(Collectors.toMap(DepartmentDTO::getId, a -> a));
+        Map<Long, DepartmentDTO> dtoMap =
+            departmentVos.stream().collect(Collectors.toMap(DepartmentDTO::getId, a -> a));
         List<DepartmentDTO> resultList = new ArrayList<>();
         for (Map.Entry<Long, DepartmentDTO> entry : dtoMap.entrySet()) {
             DepartmentDTO node = entry.getValue();

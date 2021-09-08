@@ -1,5 +1,7 @@
 package com.hzf.demo.common.config.security;
 
+import java.util.Collection;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;
@@ -9,8 +11,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import java.util.Collection;
-
 /**
  * @author zhuofan.han
  * @date 2021/9/6
@@ -18,7 +18,8 @@ import java.util.Collection;
 @Component
 public class RoleAccessDecisionManager implements AccessDecisionManager {
     @Override
-    public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
+    public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes)
+        throws AccessDeniedException, InsufficientAuthenticationException {
         for (ConfigAttribute ca : configAttributes) {
             String needRole = ca.getAttribute();
             if (StringUtils.isBlank(needRole)) {

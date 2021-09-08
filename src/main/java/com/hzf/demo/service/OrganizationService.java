@@ -1,7 +1,8 @@
 package com.hzf.demo.service;
 
-import com.hzf.demo.beans.vo.OrganizationVO;
 import org.springframework.stereotype.Service;
+
+import com.hzf.demo.beans.vo.OrganizationVO;
 
 /**
  * @author zhuofan.han

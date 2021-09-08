@@ -1,16 +1,18 @@
 package com.hzf.demo.common.config.security;
 
-import com.hzf.demo.common.Constants;
-import com.hzf.demo.common.Result;
-import com.hzf.demo.common.ResultEnum;
-import com.hzf.demo.utils.JSON;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import com.hzf.demo.common.Constants;
+import com.hzf.demo.common.Result;
+import com.hzf.demo.common.ResultEnum;
+import com.hzf.demo.utils.JSON;
 
 /**
  * 解决认证过的用户访问无权限资源时的异常

@@ -1,16 +1,18 @@
 package com.hzf.demo.controller;
 
+import javax.validation.Valid;
+
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
 import com.hzf.demo.beans.dto.LoginUserDTO;
 import com.hzf.demo.beans.vo.OrganizationVO;
 import com.hzf.demo.common.Constants;
 import com.hzf.demo.common.Result;
 import com.hzf.demo.service.OrganizationService;
 import com.hzf.demo.utils.MessageUtils;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author zhuofan.han

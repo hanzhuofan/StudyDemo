@@ -1,19 +1,21 @@
 package com.hzf.demo.service;
 
-import com.hzf.demo.beans.po.Menu;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.hzf.demo.beans.dto.LoginUserDTO;
+import com.hzf.demo.beans.po.Menu;
 import com.hzf.demo.beans.po.Role;
 import com.hzf.demo.beans.po.User;
 import com.hzf.demo.repository.MenuRepository;
 import com.hzf.demo.repository.RoleRepository;
 import com.hzf.demo.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author zhuofan.han
@@ -21,6 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 public class UserService {
+    private static final Map<String, LoginUserDTO> LOGIN_CACHE = new ConcurrentHashMap<>();
     @Autowired
     UserRepository userRepository;
     @Autowired
@@ -29,8 +32,6 @@ public class UserService {
     RoleRepository roleRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    private static final Map<String, LoginUserDTO> LOGIN_CACHE = new ConcurrentHashMap<>();
 
     public void login(LoginUserDTO loginUserDTO) {
         LOGIN_CACHE.putIfAbsent(loginUserDTO.getUsername(), loginUserDTO);

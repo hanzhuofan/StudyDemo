@@ -1,8 +1,8 @@
 package com.hzf.demo.beans.vo;
 
-import lombok.Data;
-
 import javax.validation.constraints.NotBlank;
+
+import lombok.Data;
 
 /**
  * @author zhuofan.han

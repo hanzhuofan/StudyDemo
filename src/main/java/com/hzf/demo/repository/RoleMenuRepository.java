@@ -1,10 +1,12 @@
 package com.hzf.demo.repository;
 
-import com.hzf.demo.beans.po.RoleMenu;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 import javax.transaction.Transactional;
-import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.hzf.demo.beans.po.RoleMenu;
 
 /**
  * @author zhuofan.han

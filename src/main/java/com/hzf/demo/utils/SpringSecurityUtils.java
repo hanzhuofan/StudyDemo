@@ -1,7 +1,8 @@
 package com.hzf.demo.utils;
 
-import com.hzf.demo.beans.domain.UserDO;
 import org.springframework.security.core.context.SecurityContextHolder;
+
+import com.hzf.demo.beans.domain.UserDO;
 
 /**
  * @author zhuofan.han

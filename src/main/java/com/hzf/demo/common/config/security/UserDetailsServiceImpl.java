@@ -1,12 +1,13 @@
 package com.hzf.demo.common.config.security;
 
-import com.hzf.demo.beans.domain.UserDO;
-import com.hzf.demo.repository.UserDORepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
+
+import com.hzf.demo.beans.domain.UserDO;
+import com.hzf.demo.repository.UserDORepository;
 
 /**
  * @author zhuofan.han

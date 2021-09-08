@@ -1,11 +1,13 @@
 package com.hzf.demo.repository;
 
-import com.hzf.demo.beans.po.Role;
+import java.util.List;
+
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.transaction.Transactional;
-import java.util.List;
+import com.hzf.demo.beans.po.Role;
 
 /**
  * @author zhuofan.han

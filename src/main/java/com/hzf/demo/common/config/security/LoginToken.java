@@ -1,9 +1,10 @@
 package com.hzf.demo.common.config.security;
 
+import org.springframework.security.authentication.AbstractAuthenticationToken;
+
 import com.hzf.demo.beans.domain.UserDO;
 import com.hzf.demo.beans.dto.LoginUserDTO;
 import com.hzf.demo.convert.UserConvert;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 
 /**
  * @author zhuofan.han

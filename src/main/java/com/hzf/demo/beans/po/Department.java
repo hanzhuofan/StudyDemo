@@ -1,13 +1,15 @@
 package com.hzf.demo.beans.po;
 
+import java.util.Objects;
+
+import javax.persistence.*;
+
+import org.hibernate.Hibernate;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.Hibernate;
-
-import javax.persistence.*;
-import java.util.Objects;
 
 /**
  * @author zhuofan.han
@@ -48,7 +50,7 @@ public class Department {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
-        Department that = (Department) o;
+        Department that = (Department)o;
 
         return Objects.equals(id, that.id);
     }

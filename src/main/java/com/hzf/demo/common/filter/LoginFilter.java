@@ -1,19 +1,22 @@
 package com.hzf.demo.common.filter;
 
-import com.hzf.demo.common.config.security.LoginToken;
-import com.hzf.demo.beans.vo.LoginUserVO;
-import com.hzf.demo.convert.UserConvert;
-import com.hzf.demo.utils.JSON;
-import lombok.SneakyThrows;
+import java.io.BufferedReader;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
+import com.hzf.demo.beans.vo.LoginUserVO;
+import com.hzf.demo.common.config.security.LoginToken;
+import com.hzf.demo.convert.UserConvert;
+import com.hzf.demo.utils.JSON;
+
+import lombok.SneakyThrows;
 
 /**
  * @author zhuofan.han

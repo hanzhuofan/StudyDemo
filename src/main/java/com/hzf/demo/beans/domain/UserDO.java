@@ -1,16 +1,18 @@
 package com.hzf.demo.beans.domain;
 
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
+
+import javax.persistence.*;
+
+import org.hibernate.Hibernate;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.Hibernate;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
 
 /**
  * @author zhuofan.han

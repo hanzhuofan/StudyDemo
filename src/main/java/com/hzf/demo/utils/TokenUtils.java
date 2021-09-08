@@ -1,13 +1,14 @@
 package com.hzf.demo.utils;
 
+import java.util.Date;
+
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import lombok.extern.slf4j.Slf4j;
 
-import java.util.Date;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author zhuofan.han
@@ -33,10 +34,10 @@ public class TokenUtils {
         try {
             JWTVerifier verifier = JWT.require(Algorithm.HMAC256(DEFAULT_SECRET)).build();
             verifier.verify(token);
-            return true;
+            return false;
         } catch (JWTVerificationException jwtVerificationException) {
             log.warn("Token verify failed!");
-            return false;
+            return true;
         }
 
     }

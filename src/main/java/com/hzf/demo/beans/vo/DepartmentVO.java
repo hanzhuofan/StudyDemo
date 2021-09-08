@@ -1,9 +1,9 @@
 package com.hzf.demo.beans.vo;
 
-import lombok.Data;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import lombok.Data;
 
 /**
  * @author zhuofan.han
@@ -11,17 +11,11 @@ import java.util.List;
  */
 @Data
 public class DepartmentVO {
-    private Long id;
-
-    private String name;
-
-    private String description;
-
-    private Integer status;
-
-    private Long userId;
-
-    private Long parentId;
-
     private final List<DepartmentVO> children = new ArrayList<>();
+    private Long id;
+    private String name;
+    private String description;
+    private Integer status;
+    private Long userId;
+    private Long parentId;
 }

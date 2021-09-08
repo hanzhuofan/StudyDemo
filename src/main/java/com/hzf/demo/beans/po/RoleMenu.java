@@ -1,11 +1,13 @@
 package com.hzf.demo.beans.po;
 
-import lombok.*;
-import org.hibernate.Hibernate;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
+
+import javax.persistence.*;
+
+import org.hibernate.Hibernate;
+
+import lombok.*;
 
 /**
  * @author zhuofan.han
@@ -29,7 +31,7 @@ public class RoleMenu {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
-        RoleMenu roleMenu = (RoleMenu) o;
+        RoleMenu roleMenu = (RoleMenu)o;
 
         return Objects.equals(id, roleMenu.id);
     }

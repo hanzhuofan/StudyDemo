@@ -1,10 +1,11 @@
 package com.hzf.demo.beans.dto;
 
-import com.hzf.demo.beans.domain.RoleDO;
-import lombok.Data;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import com.hzf.demo.beans.domain.RoleDO;
+
+import lombok.Data;
 
 /**
  * @author zhuofan.han

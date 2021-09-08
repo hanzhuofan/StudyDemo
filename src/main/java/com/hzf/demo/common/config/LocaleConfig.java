@@ -1,8 +1,7 @@
 package com.hzf.demo.common.config;
 
-import com.hzf.demo.common.Constants;
-import com.hzf.demo.common.interceptor.LocaleInterceptor;
-import lombok.RequiredArgsConstructor;
+import java.util.Locale;
+
 import org.springframework.boot.validation.MessageInterpolatorFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +13,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
-import java.util.Locale;
+import com.hzf.demo.common.Constants;
+import com.hzf.demo.common.interceptor.LocaleInterceptor;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author zhuofan.han

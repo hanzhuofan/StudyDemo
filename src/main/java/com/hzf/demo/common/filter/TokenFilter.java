@@ -1,13 +1,13 @@
 package com.hzf.demo.common.filter;
 
-import com.hzf.demo.beans.dto.LoginUserDTO;
-import com.hzf.demo.common.Constants;
-import com.hzf.demo.common.Result;
-import com.hzf.demo.common.config.security.LoginToken;
-import com.hzf.demo.service.UserService;
-import com.hzf.demo.utils.JSON;
-import com.hzf.demo.utils.TokenUtils;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.util.*;
+
+import javax.servlet.FilterChain;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,13 +15,15 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.*;
+import com.hzf.demo.beans.dto.LoginUserDTO;
+import com.hzf.demo.common.Constants;
+import com.hzf.demo.common.Result;
+import com.hzf.demo.common.config.security.LoginToken;
+import com.hzf.demo.service.UserService;
+import com.hzf.demo.utils.JSON;
+import com.hzf.demo.utils.TokenUtils;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author zhuofan.han
@@ -35,7 +37,7 @@ public class TokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-            throws IOException, ServletException {
+        throws IOException {
         String token = request.getHeader(Constants.TOKEN);
         if (StringUtils.isBlank(token)) {
             response.setContentType(Constants.CONTENT_TYPE);
@@ -43,7 +45,7 @@ public class TokenFilter extends OncePerRequestFilter {
             return;
         }
 
-        if (!TokenUtils.verifyToken(token)) {
+        if (TokenUtils.verifyToken(token)) {
             response.setContentType(Constants.CONTENT_TYPE);
             response.getWriter().write(JSON.toJSONString(Result.of("login.invalid")));
             return;
@@ -62,7 +64,8 @@ public class TokenFilter extends OncePerRequestFilter {
 
         CustomHttpServletRequest request2 = new CustomHttpServletRequest(request);
         request2.addHeader(Constants.LANGUAGE_PARAM_NAME, loginUserDTO.getLang());
-        filterChain.doFilter(request2, response);
+        throw new RuntimeException("test");
+        // filterChain.doFilter(request2, response);
     }
 
     public static class CustomHttpServletRequest extends HttpServletRequestWrapper {

@@ -1,9 +1,10 @@
 package com.hzf.demo.repository;
 
-import com.hzf.demo.beans.po.Department;
+import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import javax.transaction.Transactional;
+import com.hzf.demo.beans.po.Department;
 
 /**
  * @author zhuofan.han

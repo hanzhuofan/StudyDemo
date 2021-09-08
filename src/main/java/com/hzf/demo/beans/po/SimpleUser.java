@@ -1,10 +1,15 @@
 package com.hzf.demo.beans.po;
 
-import lombok.*;
-import org.hibernate.Hibernate;
+import java.util.Objects;
 
 import javax.persistence.*;
-import java.util.Objects;
+
+import org.hibernate.Hibernate;
+
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author zhuofan.han
@@ -48,7 +53,7 @@ public class SimpleUser {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
-        SimpleUser that = (SimpleUser) o;
+        SimpleUser that = (SimpleUser)o;
 
         return Objects.equals(id, that.id);
     }

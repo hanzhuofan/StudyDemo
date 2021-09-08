@@ -1,10 +1,11 @@
 package com.hzf.demo.service;
 
-import com.hzf.demo.repository.RoleDORepository;
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
+import com.hzf.demo.repository.RoleDORepository;
 
 /**
  * @author zhuofan.han

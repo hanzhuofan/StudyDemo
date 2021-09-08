@@ -1,6 +1,9 @@
 package com.hzf.demo.common.config.security;
 
-import com.hzf.demo.repository.MenuRepository;
+import java.math.BigInteger;
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -8,9 +11,7 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.stereotype.Component;
 
-import java.math.BigInteger;
-import java.util.Collection;
-import java.util.List;
+import com.hzf.demo.repository.MenuRepository;
 
 /**
  * @author zhuofan.han
@@ -23,7 +24,7 @@ public class RoleMetadataSource implements FilterInvocationSecurityMetadataSourc
 
     @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
-        FilterInvocation filterInvocation = (FilterInvocation) object;
+        FilterInvocation filterInvocation = (FilterInvocation)object;
         String requestUrl = filterInvocation.getRequestUrl();
         String method = filterInvocation.getHttpRequest().getMethod();
         List<BigInteger> authorities = menuRepository.findAuthorities(requestUrl, method);

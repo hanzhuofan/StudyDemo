@@ -1,9 +1,5 @@
 package com.hzf.demo.common.config.security;
 
-import com.hzf.demo.common.filter.LoginFilter;
-import com.hzf.demo.common.filter.OptionsRequestFilter;
-import com.hzf.demo.common.filter.TokenFilter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,6 +25,12 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.filter.CorsFilter;
 
+import com.hzf.demo.common.filter.LoginFilter;
+import com.hzf.demo.common.filter.OptionsRequestFilter;
+import com.hzf.demo.common.filter.TokenFilter;
+
+import lombok.RequiredArgsConstructor;
+
 /**
  * @author zhuofan.han
  * @date 2021/9/6
@@ -38,6 +40,14 @@ import org.springframework.web.filter.CorsFilter;
 @RequiredArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    TokenFilter tokenFilter;
+    @Autowired
+    OptionsRequestFilter optionsRequestFilter;
+    @Autowired
+    LogoutHandler logoutHandler;
+    @Autowired
+    LogoutSuccessHandler logoutSuccessHandler;
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
@@ -52,14 +62,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     private FilterInvocationSecurityMetadataSource filterInvocationSecurityMetadataSource;
     @Autowired
     private AccessDecisionManager accessDecisionManager;
-    @Autowired
-    TokenFilter tokenFilter;
-    @Autowired
-    OptionsRequestFilter optionsRequestFilter;
-    @Autowired
-    LogoutHandler logoutHandler;
-    @Autowired
-    LogoutSuccessHandler logoutSuccessHandler;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

@@ -1,9 +1,13 @@
 package com.hzf.demo.common;
 
-import com.hzf.demo.utils.MessageUtils;
-import lombok.*;
-
 import java.io.Serializable;
+
+import com.hzf.demo.utils.MessageUtils;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author zhuofan.han
@@ -26,7 +30,7 @@ public class Result<T> implements Serializable {
     }
 
     public static <T> Result<T> ok(T data) {
-        return of(ResultEnum.OK, data);
+        return of(data, ResultEnum.OK);
     }
 
     public static <T> Result<T> of() {
@@ -49,15 +53,27 @@ public class Result<T> implements Serializable {
         return new Result<>(code, MessageUtils.get(msg, args));
     }
 
+    public static <T> Result<T> of(T data, Integer code, String msg) {
+        return of(data, code, msg, new Object[0]);
+    }
+
+    public static <T> Result<T> of(T data, Integer code, String msg, Object[] args) {
+        return new Result<>(code, MessageUtils.get(msg, args), data);
+    }
+
     public static <T> Result<T> of(ResultEnum resultEnum) {
-        return of(resultEnum, null);
+        return of(null, resultEnum);
     }
 
-    public static <T> Result<T> of(ResultEnum resultEnum, T data) {
-        return of(resultEnum, new Object[0], data);
+    public static <T> Result<T> of(T data, ResultEnum resultEnum) {
+        return of(data, resultEnum, new Object[0]);
     }
 
-    public static <T> Result<T> of(ResultEnum resultEnum, Object[] args, T data) {
-        return new Result<>(resultEnum.getCode(), MessageUtils.get(resultEnum.getMsg(), args), data);
+    public static <T> Result<T> of(ResultEnum resultEnum, Object[] args) {
+        return of(null, resultEnum, args);
+    }
+
+    public static <T> Result<T> of(T data, ResultEnum resultEnum, Object[] args) {
+        return of(data, resultEnum.getCode(), resultEnum.getMsg(), args);
     }
 }

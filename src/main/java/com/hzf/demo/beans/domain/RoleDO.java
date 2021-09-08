@@ -1,14 +1,16 @@
 package com.hzf.demo.beans.domain;
 
+import java.util.Objects;
+
+import javax.persistence.*;
+
+import org.hibernate.Hibernate;
+import org.springframework.security.core.GrantedAuthority;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.Hibernate;
-import org.springframework.security.core.GrantedAuthority;
-
-import javax.persistence.*;
-import java.util.Objects;
 
 /**
  * @author zhuofan.han

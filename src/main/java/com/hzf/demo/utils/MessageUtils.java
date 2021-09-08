@@ -1,11 +1,12 @@
 package com.hzf.demo.utils;
 
-import lombok.extern.slf4j.Slf4j;
+import java.util.Locale;
+
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.Locale;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author zhuofan.han
