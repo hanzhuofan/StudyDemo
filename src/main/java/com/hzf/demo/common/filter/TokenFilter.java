@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.*;
 
 import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
@@ -37,7 +38,7 @@ public class TokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-        throws IOException {
+            throws IOException, ServletException {
         String token = request.getHeader(Constants.TOKEN);
         if (StringUtils.isBlank(token)) {
             response.setContentType(Constants.CONTENT_TYPE);
@@ -64,8 +65,7 @@ public class TokenFilter extends OncePerRequestFilter {
 
         CustomHttpServletRequest request2 = new CustomHttpServletRequest(request);
         request2.addHeader(Constants.LANGUAGE_PARAM_NAME, loginUserDTO.getLang());
-        throw new RuntimeException("test");
-        // filterChain.doFilter(request2, response);
+         filterChain.doFilter(request2, response);
     }
 
     public static class CustomHttpServletRequest extends HttpServletRequestWrapper {
