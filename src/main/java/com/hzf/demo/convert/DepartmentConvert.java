@@ -1,6 +1,6 @@
 package com.hzf.demo.convert;
 
-import com.hzf.demo.beans.domain.Department;
+import com.hzf.demo.beans.po.Department;
 import com.hzf.demo.beans.dto.DepartmentDTO;
 import com.hzf.demo.beans.vo.DepartmentVO;
 import org.mapstruct.AfterMapping;

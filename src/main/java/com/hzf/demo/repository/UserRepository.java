@@ -1,6 +1,6 @@
 package com.hzf.demo.repository;
 
-import com.hzf.demo.beans.domain.User;
+import com.hzf.demo.beans.po.User;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -18,5 +18,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @EntityGraph(value = "UserEntityGraph", type = EntityGraph.EntityGraphType.LOAD)
     List<User> findAll();
 
+    @EntityGraph(value = "UserEntityGraph", type = EntityGraph.EntityGraphType.LOAD)
     User findByUsername(String username);
 }

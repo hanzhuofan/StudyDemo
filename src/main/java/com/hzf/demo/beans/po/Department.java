@@ -1,4 +1,4 @@
-package com.hzf.demo.beans.domain;
+package com.hzf.demo.beans.po;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

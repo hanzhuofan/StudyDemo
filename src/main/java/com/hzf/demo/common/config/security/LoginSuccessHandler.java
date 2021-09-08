@@ -1,6 +1,6 @@
 package com.hzf.demo.common.config.security;
 
-import com.hzf.demo.beans.domain.Role;
+import com.hzf.demo.beans.domain.RoleDO;
 import com.hzf.demo.beans.dto.LoginUserDTO;
 import com.hzf.demo.common.Constants;
 import com.hzf.demo.common.Result;
@@ -31,12 +31,12 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         Authentication authentication) throws IOException {
         response.setContentType(Constants.CONTENT_TYPE);
         LoginToken loginToken = (LoginToken)authentication;
-        LoginUserDTO loginUserDTO = loginToken.getUser();
+        LoginUserDTO loginUserDTO = loginToken.getPrincipal();
         for (GrantedAuthority authority : loginToken.getAuthorities()) {
-            loginUserDTO.getAuthorities().add((Role)authority);
+            loginUserDTO.getAuthorities().add((RoleDO)authority);
         }
         userService.login(loginUserDTO);
-        String token = TokenUtils.createToken(JSON.toJSONString(loginUserDTO));
+        String token = TokenUtils.createToken(loginUserDTO.getUsername());
         response.getWriter().write(JSON.toJSONString(Result.ok(token)));
     }
 }

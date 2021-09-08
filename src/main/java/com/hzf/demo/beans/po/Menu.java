@@ -1,4 +1,4 @@
-package com.hzf.demo.beans.domain;
+package com.hzf.demo.beans.po;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;

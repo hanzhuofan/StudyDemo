@@ -1,4 +1,4 @@
-package com.hzf.demo.beans.domain;
+package com.hzf.demo.beans.po;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -23,8 +22,9 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "role", schema = "demo")
-@NamedEntityGraph(name = "RoleEntityGraph", attributeNodes = {@NamedAttributeNode(value = "users"), @NamedAttributeNode(value = "menus")})
-public class Role implements GrantedAuthority {
+@NamedEntityGraph(name = "RoleEntityGraph",
+    attributeNodes = {@NamedAttributeNode(value = "users"), @NamedAttributeNode(value = "menus")})
+public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -45,15 +45,10 @@ public class Role implements GrantedAuthority {
 
     @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinTable(schema = "demo", name = "role_menu", joinColumns = {@JoinColumn(name = "role_id")},
-            inverseJoinColumns = {@JoinColumn(name = "menu_id")})
+        inverseJoinColumns = {@JoinColumn(name = "menu_id")})
     @ToString.Exclude
     @JsonIgnoreProperties(value = "authorities")
     private Set<Menu> menus = new HashSet<>();
-
-    @Override
-    public String getAuthority() {
-        return getId().toString();
-    }
 
     @Override
     public boolean equals(Object o) {

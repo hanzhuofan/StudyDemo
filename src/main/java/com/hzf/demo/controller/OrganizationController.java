@@ -1,12 +1,13 @@
 package com.hzf.demo.controller;
 
+import com.hzf.demo.beans.dto.LoginUserDTO;
 import com.hzf.demo.beans.vo.OrganizationVO;
 import com.hzf.demo.common.Constants;
 import com.hzf.demo.common.Result;
 import com.hzf.demo.service.OrganizationService;
 import com.hzf.demo.utils.MessageUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,9 +23,9 @@ public class OrganizationController {
     private final OrganizationService organizationService;
 
     @PostMapping(value = "v1/save", produces = {Constants.CONTENT_TYPE})
-    public Result<?> save(@Valid @RequestBody OrganizationVO body) {
+    public Result<?> save(@AuthenticationPrincipal LoginUserDTO user, @Valid @RequestBody OrganizationVO body) {
         organizationService.save(body);
-        return Result.ok();
+        return Result.ok(user);
     }
 
     @GetMapping(value = "test", produces = {Constants.CONTENT_TYPE})

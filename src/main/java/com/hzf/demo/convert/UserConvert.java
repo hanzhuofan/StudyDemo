@@ -1,5 +1,6 @@
 package com.hzf.demo.convert;
 
+import com.hzf.demo.beans.domain.UserDO;
 import com.hzf.demo.beans.dto.LoginUserDTO;
 import com.hzf.demo.beans.vo.LoginUserVO;
 import org.mapstruct.Mapper;
@@ -16,4 +17,6 @@ public interface UserConvert {
     LoginUserDTO vo2dto(LoginUserVO loginUserVO);
 
     LoginUserVO dto2vo(LoginUserDTO loginUserDTO);
+
+    LoginUserDTO do2dto(UserDO userDO);
 }

@@ -35,7 +35,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         } catch (Exception e) {
             throw new AuthenticationServiceException("Authentication error: " + e.getMessage());
         }
-        LoginToken loginToken = new LoginToken(UserConvert.INSTANCE.vo2dto(loginUserVO));
+        LoginToken loginToken = new LoginToken(UserConvert.INSTANCE.vo2dto(loginUserVO), false);
         loginToken.setDetails(new WebAuthenticationDetails(request));
         return this.getAuthenticationManager().authenticate(loginToken);
     }

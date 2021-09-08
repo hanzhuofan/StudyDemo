@@ -1,6 +1,5 @@
 package com.hzf.demo.beans.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -23,10 +22,8 @@ import java.util.Set;
 @RequiredArgsConstructor
 @Entity
 @Table(name = "user", schema = "demo")
-@NamedEntityGraph(name = "UserEntityGraph",
-        attributeNodes = {@NamedAttributeNode(value = "authorities", subgraph = "RoleMenuEntityGraph")},
-        subgraphs = {@NamedSubgraph(name = "RoleMenuEntityGraph", attributeNodes = {@NamedAttributeNode("menus")})})
-public class User implements UserDetails {
+@NamedEntityGraph(name = "UserDOEntityGraph", attributeNodes = {@NamedAttributeNode(value = "authorities")})
+public class UserDO implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -39,23 +36,21 @@ public class User implements UserDetails {
     private String password;
 
     @Column(name = "account_non_expired", columnDefinition = "boolean default true")
-    private boolean accountNonExpired = true;
+    private Boolean accountNonExpired = true;
 
     @Column(name = "account_non_locked", columnDefinition = "boolean default true")
-    private boolean accountNonLocked = true;
+    private Boolean accountNonLocked = true;
 
     @Column(name = "credentials_non_expired", columnDefinition = "boolean default true")
-    private boolean credentialsNonExpired = true;
+    private Boolean credentialsNonExpired = true;
 
     @Column(name = "enabled", columnDefinition = "boolean default true")
     private Boolean enabled = true;
 
-    @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinTable(schema = "demo", name = "user_role", joinColumns = {@JoinColumn(name = "user_id")},
         inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    @ToString.Exclude
-    @JsonIgnoreProperties(value = "users")
-    private Set<Role> authorities = new HashSet<>();
+    private Set<RoleDO> authorities = new HashSet<>();
 
     @Override
     public boolean isAccountNonExpired() {
@@ -85,9 +80,9 @@ public class User implements UserDetails {
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
             return false;
         }
-        User user = (User)o;
+        UserDO userDO = (UserDO)o;
 
-        return Objects.equals(id, user.id);
+        return Objects.equals(id, userDO.id);
     }
 
     @Override

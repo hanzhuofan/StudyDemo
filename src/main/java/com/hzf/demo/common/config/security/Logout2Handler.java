@@ -1,10 +1,7 @@
 package com.hzf.demo.common.config.security;
 
-import com.hzf.demo.beans.dto.LoginUserDTO;
 import com.hzf.demo.common.Constants;
-import com.hzf.demo.common.Result;
 import com.hzf.demo.service.UserService;
-import com.hzf.demo.utils.JSON;
 import com.hzf.demo.utils.TokenUtils;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
@@ -32,7 +29,7 @@ public class Logout2Handler implements LogoutHandler {
         if (StringUtils.isBlank(token) || !TokenUtils.verifyToken(token)) {
             return;
         }
-        LoginUserDTO user = JSON.parseObject(TokenUtils.getUserString(token), LoginUserDTO.class);
+        String user = TokenUtils.getUserString(token);
         userService.logout(user);
     }
 }

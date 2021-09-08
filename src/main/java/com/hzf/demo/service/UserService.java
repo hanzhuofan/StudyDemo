@@ -1,9 +1,9 @@
 package com.hzf.demo.service;
 
-import com.hzf.demo.beans.domain.Menu;
-import com.hzf.demo.beans.domain.Role;
-import com.hzf.demo.beans.domain.User;
+import com.hzf.demo.beans.po.Menu;
 import com.hzf.demo.beans.dto.LoginUserDTO;
+import com.hzf.demo.beans.po.Role;
+import com.hzf.demo.beans.po.User;
 import com.hzf.demo.repository.MenuRepository;
 import com.hzf.demo.repository.RoleRepository;
 import com.hzf.demo.repository.UserRepository;
@@ -36,12 +36,16 @@ public class UserService {
         LOGIN_CACHE.putIfAbsent(loginUserDTO.getUsername(), loginUserDTO);
     }
 
-    public Boolean isLogin(LoginUserDTO loginUserDTO) {
-        return LOGIN_CACHE.containsKey(loginUserDTO.getUsername());
+    public Boolean isLogin(String username) {
+        return LOGIN_CACHE.containsKey(username);
     }
 
-    public void logout(LoginUserDTO loginUserDTO) {
-        LOGIN_CACHE.remove(loginUserDTO.getUsername());
+    public LoginUserDTO getLoginUser(String username) {
+        return LOGIN_CACHE.get(username);
+    }
+
+    public void logout(String username) {
+        LOGIN_CACHE.remove(username);
     }
 
     @PostConstruct

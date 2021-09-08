@@ -1,6 +1,6 @@
 package com.hzf.demo.repository;
 
-import com.hzf.demo.beans.domain.Role;
+import com.hzf.demo.beans.po.Role;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 

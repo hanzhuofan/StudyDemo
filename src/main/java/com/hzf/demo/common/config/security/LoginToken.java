@@ -1,45 +1,44 @@
 package com.hzf.demo.common.config.security;
 
+import com.hzf.demo.beans.domain.UserDO;
 import com.hzf.demo.beans.dto.LoginUserDTO;
+import com.hzf.demo.convert.UserConvert;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-
-import java.util.Collection;
 
 /**
  * @author zhuofan.han
  * @date 2021/9/6
  */
 public class LoginToken extends AbstractAuthenticationToken {
+    private static final long serialVersionUID = -2008505237738496694L;
+
     private final LoginUserDTO user;
 
-    public LoginToken(LoginUserDTO user) {
-        super(null);
+    public LoginToken(LoginUserDTO user, Boolean authenticated) {
+        super(user.getAuthorities());
         this.user = user;
-        setAuthenticated(false);
+        setAuthenticated(authenticated);
     }
 
-    public LoginToken(LoginUserDTO user, Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
-        this.user = user;
+    public LoginToken(UserDO userDO, String lang) {
+        super(userDO.getAuthorities());
+        this.user = UserConvert.INSTANCE.do2dto(userDO);
+        this.user.setLang(lang);
         super.setAuthenticated(true);
     }
 
     @Override
-    public Object getCredentials() {
+    public String getCredentials() {
         return user.getPassword();
     }
 
     @Override
-    public Object getPrincipal() {
-        return user.getUsername();
-    }
-
-    public String getLang() {
-        return user.getLang();
-    }
-
-    public LoginUserDTO getUser() {
+    public LoginUserDTO getPrincipal() {
         return user;
+    }
+
+    @Override
+    public String getName() {
+        return user.getUsername();
     }
 }

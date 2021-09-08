@@ -1,5 +1,6 @@
 package com.hzf.demo.common.config.security;
 
+import com.hzf.demo.beans.domain.UserDO;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -29,7 +30,7 @@ public class LoginProvider implements AuthenticationProvider {
 
         additionalAuthenticationChecks(userDetails, loginToken);
 
-        LoginToken token = new LoginToken(loginToken.getUser(), userDetails.getAuthorities());
+        LoginToken token = new LoginToken((UserDO)userDetails, loginToken.getPrincipal().getLang());
         token.setDetails(loginToken.getDetails());
         return token;
     }
@@ -58,7 +59,7 @@ public class LoginProvider implements AuthenticationProvider {
         if (authentication.getCredentials() == null) {
             throw new BadCredentialsException("Bad credentials");
         }
-        String presentedPassword = authentication.getCredentials().toString();
+        String presentedPassword = authentication.getCredentials();
         if (!passwordEncoder.matches(presentedPassword, userDetails.getPassword())) {
             throw new BadCredentialsException("Bad credentials");
         }

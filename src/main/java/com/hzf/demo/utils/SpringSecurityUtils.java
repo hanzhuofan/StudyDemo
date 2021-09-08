@@ -1,6 +1,6 @@
 package com.hzf.demo.utils;
 
-import com.hzf.demo.beans.domain.User;
+import com.hzf.demo.beans.domain.UserDO;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
@@ -8,7 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
  * @date 2021/9/6
  */
 public class SpringSecurityUtils {
-    public static User getCurrentUser() {
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public static UserDO getCurrentUser() {
+        return (UserDO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

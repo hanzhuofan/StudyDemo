@@ -49,18 +49,19 @@ public class TokenFilter extends OncePerRequestFilter {
             return;
         }
 
-        LoginUserDTO user = JSON.parseObject(TokenUtils.getUserString(token), LoginUserDTO.class);
+        String user = TokenUtils.getUserString(token);
         if (!userService.isLogin(user)) {
             response.setContentType(Constants.CONTENT_TYPE);
             response.getWriter().write(JSON.toJSONString(Result.of("login.invalid")));
             return;
         }
-        LoginToken loginToken = new LoginToken(user, user.getAuthorities());
+        LoginUserDTO loginUserDTO = userService.getLoginUser(user);
+        LoginToken loginToken = new LoginToken(loginUserDTO, true);
         loginToken.setDetails(new WebAuthenticationDetails(request));
         SecurityContextHolder.getContext().setAuthentication(loginToken);
 
         CustomHttpServletRequest request2 = new CustomHttpServletRequest(request);
-        request2.addHeader(Constants.LANGUAGE_PARAM_NAME, user.getLang());
+        request2.addHeader(Constants.LANGUAGE_PARAM_NAME, loginUserDTO.getLang());
         filterChain.doFilter(request2, response);
     }
 
