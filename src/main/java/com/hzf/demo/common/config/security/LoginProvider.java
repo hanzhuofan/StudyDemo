@@ -1,5 +1,6 @@
 package com.hzf.demo.common.config.security;
 
+import com.hzf.demo.convert.UserConvert;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -31,7 +32,8 @@ public class LoginProvider implements AuthenticationProvider {
 
         additionalAuthenticationChecks(userDetails, loginToken);
 
-        LoginToken token = new LoginToken((UserDO)userDetails, loginToken.getPrincipal().getLang());
+        UserConvert.INSTANCE.copy((UserDO)userDetails, loginToken.getPrincipal());
+        LoginToken token = new LoginToken(loginToken.getPrincipal(), true);
         token.setDetails(loginToken.getDetails());
         return token;
     }

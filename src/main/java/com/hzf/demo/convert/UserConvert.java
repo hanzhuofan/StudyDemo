@@ -2,6 +2,8 @@ package com.hzf.demo.convert;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.control.DeepClone;
 import org.mapstruct.factory.Mappers;
 
 import com.hzf.demo.beans.domain.UserDO;
@@ -22,4 +24,7 @@ public interface UserConvert {
 
     @Mapping(target = "lang", ignore = true)
     LoginUserDTO do2dto(UserDO userDO);
+
+    @Mapping(target = "lang", ignore = true)
+    void copy(UserDO userDO, @MappingTarget LoginUserDTO loginUserDTO);
 }
