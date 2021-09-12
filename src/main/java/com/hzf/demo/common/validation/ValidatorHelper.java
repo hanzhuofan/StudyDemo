@@ -22,7 +22,14 @@ public class ValidatorHelper {
         ValidatorHelper.validator = validator;
     }
 
-    public static List<String> valid(Object object, Class<?>... groups) {
+    public static void valid(Object object, Class<?>... groups) {
+        List<String> validationResult = validate(object, groups);
+        if (!validationResult.isEmpty()) {
+            throw new IllegalArgumentException(validationResult.toString());
+        }
+    }
+
+    private static List<String> validate(Object object, Class<?>[] groups) {
         return validator.validate(object, groups).stream()
             .map(v -> parseProperty(v.getPropertyPath().toString(), v.getInvalidValue(), v.getMessage()))
             .collect(Collectors.toList());

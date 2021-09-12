@@ -37,10 +37,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
                 sb.append(str);
             }
             loginUserVO = JSON.parseObject(sb.toString(), LoginUserVO.class);
-            List<String> valid = ValidatorHelper.valid(loginUserVO);
-            if (!valid.isEmpty()) {
-                throw new AuthenticationServiceException(valid.toString());
-            }
+            ValidatorHelper.valid(loginUserVO);
             LoginToken loginToken = new LoginToken(UserConvert.INSTANCE.vo2dto(loginUserVO), false);
             loginToken.setDetails(new WebAuthenticationDetails(request));
             return this.getAuthenticationManager().authenticate(loginToken);

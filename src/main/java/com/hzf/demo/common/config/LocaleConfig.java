@@ -43,6 +43,6 @@ public class LocaleConfig implements WebMvcConfigurer {
     @Bean
     public Validator validator() {
         return Validation.byProvider(HibernateValidator.class).configure().failFast(true).buildValidatorFactory()
-                .getValidator();
+            .getValidator();
     }
 }
