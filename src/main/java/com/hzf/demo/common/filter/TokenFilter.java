@@ -11,8 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -36,10 +39,18 @@ public class TokenFilter extends OncePerRequestFilter {
     @Autowired
     UserService userService;
 
+    private final List<RequestMatcher> matchers = new ArrayList<>();
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
         throws IOException, ServletException {
         String token = request.getHeader(Constants.TOKEN);
+        for (RequestMatcher matcher : matchers) {
+            if (matcher.matches(request)) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+        }
         if (StringUtils.isBlank(token)) {
             response.setContentType(Constants.CONTENT_TYPE);
             response.getWriter().write(JSON.toJSONString(Result.of("login.not")));
@@ -103,5 +114,17 @@ public class TokenFilter extends OncePerRequestFilter {
             }
             return Collections.enumeration(list);
         }
+    }
+
+    public TokenFilter antMatchers(String... antPatterns) {
+        return antMatchers(null, antPatterns);
+    }
+
+    public TokenFilter antMatchers(HttpMethod httpMethod, String... antPatterns) {
+        String method = (httpMethod != null) ? httpMethod.toString() : null;
+        for (String pattern : antPatterns) {
+            matchers.add(new AntPathRequestMatcher(pattern, method));
+        }
+        return this;
     }
 }
