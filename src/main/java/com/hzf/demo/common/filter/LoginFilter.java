@@ -6,7 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.hzf.demo.utils.ValidationUtils;
+import com.hzf.demo.common.validation.ValidatorHelper;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -37,7 +37,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
                 sb.append(str);
             }
             loginUserVO = JSON.parseObject(sb.toString(), LoginUserVO.class);
-            List<String> valid = ValidationUtils.valid(loginUserVO);
+            List<String> valid = ValidatorHelper.valid(loginUserVO);
             if (!valid.isEmpty()) {
                 throw new AuthenticationServiceException(valid.toString());
             }

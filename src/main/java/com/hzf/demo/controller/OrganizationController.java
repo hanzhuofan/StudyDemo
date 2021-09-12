@@ -2,7 +2,9 @@ package com.hzf.demo.controller;
 
 import javax.validation.Valid;
 
+import com.hzf.demo.common.validation.groups.Add;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import com.hzf.demo.beans.dto.LoginUserDTO;
@@ -25,7 +27,8 @@ public class OrganizationController {
     private final OrganizationService organizationService;
 
     @PostMapping(value = "v1/save", produces = {Constants.CONTENT_TYPE})
-    public Result<?> save(@AuthenticationPrincipal LoginUserDTO user, @Valid @RequestBody OrganizationVO body) {
+    public Result<?> save(@AuthenticationPrincipal LoginUserDTO user,
+        @Validated(Add.class) @RequestBody OrganizationVO body) {
         organizationService.save(body);
         return Result.ok(user);
     }

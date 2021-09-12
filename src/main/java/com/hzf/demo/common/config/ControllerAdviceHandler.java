@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
-import com.hzf.demo.utils.ValidationUtils;
+import com.hzf.demo.common.validation.ValidatorHelper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -32,7 +32,7 @@ public class ControllerAdviceHandler {
     public Result<?> handler(final MethodArgumentNotValidException e) {
         log.error("", e);
         String arg = e
-            .getBindingResult().getAllErrors().stream().map(o -> ValidationUtils
+            .getBindingResult().getAllErrors().stream().map(o -> ValidatorHelper
                 .parseProperty(((FieldError)o).getField(), ((FieldError)o).getRejectedValue(), o.getDefaultMessage()))
             .collect(Collectors.joining());
         return Result.of("validator.tip", new String[] {arg});
@@ -42,7 +42,7 @@ public class ControllerAdviceHandler {
     public Result<?> bindExceptionHandler(final BindException e) {
         log.error("", e);
         String arg = e
-            .getBindingResult().getAllErrors().stream().map(o -> ValidationUtils
+            .getBindingResult().getAllErrors().stream().map(o -> ValidatorHelper
                 .parseProperty(((FieldError)o).getField(), ((FieldError)o).getRejectedValue(), o.getDefaultMessage()))
             .collect(Collectors.joining());
         return Result.of("validator.tip", new String[] {arg});

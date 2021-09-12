@@ -1,8 +1,8 @@
-package com.hzf.demo.utils;
+package com.hzf.demo.common.validation;
 
-import com.hzf.demo.beans.vo.LoginUserVO;
+import com.hzf.demo.utils.MessageUtils;
+import org.springframework.stereotype.Component;
 
-import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,17 +11,19 @@ import java.util.stream.Collectors;
  * @author zhuofan.han
  * @date 2021/9/8
  */
-public class ValidationUtils {
+@Component
+public class ValidatorHelper {
     /**
      * 线程安全
      */
-    private static final Validator VALIDATOR;
-    static {
-        VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
+    private static Validator validator;
+
+    public ValidatorHelper(Validator validator) {
+        ValidatorHelper.validator = validator;
     }
 
-    public static List<String> valid(LoginUserVO loginUserVO) {
-        return VALIDATOR.validate(loginUserVO).stream()
+    public static List<String> valid(Object object, Class<?>... groups) {
+        return validator.validate(object, groups).stream()
             .map(v -> parseProperty(v.getPropertyPath().toString(), v.getInvalidValue(), v.getMessage()))
             .collect(Collectors.toList());
     }
