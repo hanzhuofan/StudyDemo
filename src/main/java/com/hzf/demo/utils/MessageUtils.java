@@ -7,6 +7,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Component;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 
 /**
  * @author zhuofan.han
@@ -19,6 +20,10 @@ public class MessageUtils {
 
     public MessageUtils(MessageSource messageSource) {
         MessageUtils.messageSource = messageSource;
+    }
+
+    public static void setLocale(String lang) {
+        LocaleContextHolder.setLocale(StringUtils.parseLocale(lang));
     }
 
     public static String get(String msgKey) {

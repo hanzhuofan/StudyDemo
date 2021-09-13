@@ -29,11 +29,13 @@ import com.hzf.demo.common.Result;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @author zhuofan.han
  * @date 2021/9/8
  */
+@ApiIgnore
 @Slf4j
 @Controller
 @RequiredArgsConstructor
@@ -48,32 +50,26 @@ public class ExceptionController implements ErrorController {
     @RequestMapping
     @ResponseBody
     public Result<Map<String, Object>> error(HttpServletRequest request) {
-        log.error(getTrace(request));
+        log.error(getError(request));
         HttpStatus status = getStatus(request);
-        if (status == HttpStatus.NO_CONTENT) {
-            return Result.of(status.value(), status.getReasonPhrase());
-        }
-        Map<String, Object> body = getErrorAttributes(request, getErrorAttributeOptions(request));
-        return Result.of(body, status.value(), status.getReasonPhrase());
+        return Result.of(status.value(), status.getReasonPhrase());
     }
 
-    private String getTrace(HttpServletRequest request) {
-        return getErrorAttributes(request,
-            ErrorAttributeOptions.defaults().including(ErrorAttributeOptions.Include.STACK_TRACE)).get("trace")
-                .toString();
+    private String getError(HttpServletRequest request) {
+        return getErrorAttributes(request, getErrorAttributeOptions(request)).toString();
     }
 
     @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
     @ResponseBody
     public Result<String> mediaTypeNotAcceptable(HttpServletRequest request) {
-        log.error(getTrace(request));
+        log.error(getError(request));
         HttpStatus status = getStatus(request);
         return Result.of(status.value(), status.getReasonPhrase());
     }
 
     @RequestMapping(consumes = MediaType.TEXT_HTML_VALUE)
     public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
-        log.error(getTrace(request));
+        log.error(getError(request));
         HttpStatus status = getStatus(request);
         Map<String, Object> model =
             Collections.unmodifiableMap(getErrorAttributes(request, getErrorAttributeOptions(request)));

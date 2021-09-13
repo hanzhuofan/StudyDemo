@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootVersion;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -16,16 +18,14 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author zhuofan.han
  * @date 2021/9/12
  */
 @Configuration
+@Profile(value = {"dev"})
 public class SwaggerConfig implements WebMvcConfigurer {
     @Autowired
     private SwaggerProperties swaggerProperties;
@@ -35,18 +35,11 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     @Bean
     public Docket createRestApi() {
-        tokenFilter
-            .antMatchers("/v2/api-docs", "/swagger-resources/configuration/ui", "/swagger-resources",
-                "/swagger-resources/configuration/security", "/swagger-ui.html")
-            .antMatchers("/swagger-ui/*").antMatchers("/v3/**", "/webjars/**", "/swagger**/**", "/doc.html");
-
-        Set<String> set = new HashSet<>();
-        set.add("https");
-        set.add("http");
+        tokenFilter.excludePathPatterns(Constants.EXCLUDE).excludePathPatterns(HttpMethod.POST, "/login");
         return new Docket(DocumentationType.OAS_30).pathMapping("/").enable(swaggerProperties.getEnable())
             .apiInfo(apiInfo()).host(swaggerProperties.getTryHost()).select().apis(RequestHandlerSelectors.any())
-            .paths(PathSelectors.any()).build().protocols(set).securitySchemes(securitySchemes())
-            .securityContexts(securityContexts());
+            .paths(PathSelectors.any()).build().protocols(new HashSet<>(Arrays.asList(Constants.PROTOCOLS)))
+            .securitySchemes(securitySchemes()).securityContexts(securityContexts());
     }
 
     private ApiInfo apiInfo() {

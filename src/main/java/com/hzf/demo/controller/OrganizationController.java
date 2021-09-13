@@ -1,20 +1,17 @@
 package com.hzf.demo.controller;
 
-import javax.validation.Valid;
-
-import com.hzf.demo.common.validation.groups.Add;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-
 import com.hzf.demo.beans.dto.LoginUserDTO;
 import com.hzf.demo.beans.vo.OrganizationVO;
 import com.hzf.demo.common.Constants;
 import com.hzf.demo.common.Result;
+import com.hzf.demo.common.validation.groups.Add;
 import com.hzf.demo.service.OrganizationService;
 import com.hzf.demo.utils.MessageUtils;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 /**
  * @author zhuofan.han
@@ -27,7 +24,7 @@ public class OrganizationController {
     private final OrganizationService organizationService;
 
     @PostMapping(value = "v1/save", produces = {Constants.CONTENT_TYPE})
-    public Result<?> save(@AuthenticationPrincipal LoginUserDTO user,
+    public Result<?> save(@AuthenticationPrincipal @ApiIgnore LoginUserDTO user,
         @Validated(Add.class) @RequestBody OrganizationVO body) {
         organizationService.save(body);
         return Result.ok(user);

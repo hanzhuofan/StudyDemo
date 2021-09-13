@@ -41,6 +41,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
             LoginToken loginToken = new LoginToken(UserConvert.INSTANCE.vo2dto(loginUserVO), false);
             loginToken.setDetails(new WebAuthenticationDetails(request));
             return this.getAuthenticationManager().authenticate(loginToken);
+        } catch (AuthenticationException e) {
+            throw e;
         } catch (Exception e) {
             throw new AuthenticationServiceException(e.getMessage());
         }

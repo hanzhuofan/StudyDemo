@@ -25,7 +25,7 @@ public class LoginProvider implements AuthenticationProvider {
     }
 
     @Override
-    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    public Authentication authenticate(Authentication authentication) throws BadCredentialsException {
         UserDetails userDetails = userDetailsService.loadUserByUsername(authentication.getName());
         LoginToken loginToken = (LoginToken)authentication;
         defaultCheck(userDetails);
@@ -58,7 +58,7 @@ public class LoginProvider implements AuthenticationProvider {
     }
 
     private void additionalAuthenticationChecks(UserDetails userDetails, LoginToken authentication)
-        throws AuthenticationException {
+        throws BadCredentialsException {
         if (authentication.getCredentials() == null) {
             throw new BadCredentialsException("Bad credentials");
         }

@@ -37,7 +37,7 @@ public class LocaleConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(i18nInterceptor());
+        registry.addInterceptor(i18nInterceptor()).excludePathPatterns(Constants.EXCLUDE).excludePathPatterns("/login");
     }
 
     @Bean

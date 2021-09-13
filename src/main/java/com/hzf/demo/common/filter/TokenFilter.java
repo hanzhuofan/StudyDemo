@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
+import com.hzf.demo.utils.MessageUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
@@ -73,54 +75,15 @@ public class TokenFilter extends OncePerRequestFilter {
         LoginToken loginToken = new LoginToken(loginUserDTO, true);
         loginToken.setDetails(new WebAuthenticationDetails(request));
         SecurityContextHolder.getContext().setAuthentication(loginToken);
-
-        CustomHttpServletRequest request2 = new CustomHttpServletRequest(request);
-        request2.addHeader(Constants.LANGUAGE_PARAM_NAME, loginUserDTO.getLang());
-        filterChain.doFilter(request2, response);
+        MessageUtils.setLocale(request.getHeader(Constants.LANGUAGE_PARAM_NAME));
+        filterChain.doFilter(request, response);
     }
 
-    public static class CustomHttpServletRequest extends HttpServletRequestWrapper {
-        private final Map<String, String> headers = new HashMap<>();
-
-        public CustomHttpServletRequest(HttpServletRequest request) {
-            super(request);
-        }
-
-        public void addHeader(String name, String value) {
-            headers.put(name, value);
-        }
-
-        @Override
-        public String getHeader(String name) {
-            String value = super.getHeader(name);
-            if (headers.containsKey(name)) {
-                value = headers.get(name);
-            }
-            return value;
-        }
-
-        @Override
-        public Enumeration<String> getHeaderNames() {
-            List<String> names = Collections.list(super.getHeaderNames());
-            names.addAll(headers.keySet());
-            return Collections.enumeration(names);
-        }
-
-        @Override
-        public Enumeration<String> getHeaders(String name) {
-            List<String> list = Collections.list(super.getHeaders(name));
-            if (headers.containsKey(name)) {
-                list.add(headers.get(name));
-            }
-            return Collections.enumeration(list);
-        }
+    public TokenFilter excludePathPatterns(String... antPatterns) {
+        return excludePathPatterns(null, antPatterns);
     }
 
-    public TokenFilter antMatchers(String... antPatterns) {
-        return antMatchers(null, antPatterns);
-    }
-
-    public TokenFilter antMatchers(HttpMethod httpMethod, String... antPatterns) {
+    public TokenFilter excludePathPatterns(HttpMethod httpMethod, String... antPatterns) {
         String method = (httpMethod != null) ? httpMethod.toString() : null;
         for (String pattern : antPatterns) {
             matchers.add(new AntPathRequestMatcher(pattern, method));

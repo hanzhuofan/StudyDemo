@@ -5,6 +5,8 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.hzf.demo.utils.MessageUtils;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
 import com.hzf.demo.common.Constants;
 import com.hzf.demo.common.Result;
 import com.hzf.demo.utils.JSON;
+import org.springframework.util.StringUtils;
 
 /**
  * @author zhuofan.han
@@ -41,6 +44,7 @@ public class LoginFailureHandler extends SimpleUrlAuthenticationFailureHandler {
             args = new Object[]{exception.getMessage()};
         }
 
+        MessageUtils.setLocale(request.getHeader(Constants.LANGUAGE_PARAM_NAME));
         response.setContentType(Constants.CONTENT_TYPE);
         response.getWriter().write(JSON.toJSONString(Result.of(msg, args)));
     }
