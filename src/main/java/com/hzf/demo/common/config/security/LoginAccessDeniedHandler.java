@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import com.hzf.demo.common.Constants;
 import com.hzf.demo.common.Result;
 import com.hzf.demo.common.ResultEnum;
-import com.hzf.demo.utils.JSON;
+import com.hzf.demo.utils.JsonUtils;
 
 /**
  * 解决认证过的用户访问无权限资源时的异常
@@ -27,6 +27,6 @@ public class LoginAccessDeniedHandler implements AccessDeniedHandler {
         AccessDeniedException accessDeniedException) throws IOException {
         response.setContentType(Constants.CONTENT_TYPE);
         response.getWriter().write(
-            JSON.toJSONString(Result.of(ResultEnum.NO_RIGHT, new String[] {accessDeniedException.getMessage()})));
+            JsonUtils.toJsonString(Result.of(ResultEnum.NO_RIGHT, new String[] {accessDeniedException.getMessage()})));
     }
 }

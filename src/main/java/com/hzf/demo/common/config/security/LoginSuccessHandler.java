@@ -17,7 +17,7 @@ import com.hzf.demo.beans.dto.LoginUserDTO;
 import com.hzf.demo.common.Constants;
 import com.hzf.demo.common.Result;
 import com.hzf.demo.service.UserService;
-import com.hzf.demo.utils.JSON;
+import com.hzf.demo.utils.JsonUtils;
 import com.hzf.demo.utils.TokenUtils;
 import org.springframework.util.StringUtils;
 
@@ -42,6 +42,6 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         userService.login(loginUserDTO);
         String token = TokenUtils.createToken(loginUserDTO.getUsername());
         LocaleContextHolder.setLocale(StringUtils.parseLocale(loginUserDTO.getLang()));
-        response.getWriter().write(JSON.toJSONString(Result.ok(token)));
+        response.getWriter().write(JsonUtils.toJsonString(Result.ok(token)));
     }
 }

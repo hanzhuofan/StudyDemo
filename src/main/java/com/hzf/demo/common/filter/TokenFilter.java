@@ -6,13 +6,11 @@ import java.util.*;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 import com.hzf.demo.utils.MessageUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
@@ -26,7 +24,7 @@ import com.hzf.demo.common.Constants;
 import com.hzf.demo.common.Result;
 import com.hzf.demo.common.config.security.LoginToken;
 import com.hzf.demo.service.UserService;
-import com.hzf.demo.utils.JSON;
+import com.hzf.demo.utils.JsonUtils;
 import com.hzf.demo.utils.TokenUtils;
 
 import lombok.extern.slf4j.Slf4j;
@@ -55,20 +53,20 @@ public class TokenFilter extends OncePerRequestFilter {
         }
         if (StringUtils.isBlank(token)) {
             response.setContentType(Constants.CONTENT_TYPE);
-            response.getWriter().write(JSON.toJSONString(Result.of("login.not")));
+            response.getWriter().write(JsonUtils.toJsonString(Result.of("login.not")));
             return;
         }
 
         if (TokenUtils.verifyToken(token)) {
             response.setContentType(Constants.CONTENT_TYPE);
-            response.getWriter().write(JSON.toJSONString(Result.of("login.invalid")));
+            response.getWriter().write(JsonUtils.toJsonString(Result.of("login.invalid")));
             return;
         }
 
         String user = TokenUtils.getUserString(token);
         if (!userService.isLogin(user)) {
             response.setContentType(Constants.CONTENT_TYPE);
-            response.getWriter().write(JSON.toJSONString(Result.of("login.invalid")));
+            response.getWriter().write(JsonUtils.toJsonString(Result.of("login.invalid")));
             return;
         }
         LoginUserDTO loginUserDTO = userService.getLoginUser(user);

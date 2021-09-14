@@ -1,7 +1,6 @@
 package com.hzf.demo.common.filter;
 
 import java.io.BufferedReader;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +15,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import com.hzf.demo.beans.vo.LoginUserVO;
 import com.hzf.demo.common.config.security.LoginToken;
 import com.hzf.demo.convert.UserConvert;
-import com.hzf.demo.utils.JSON;
+import com.hzf.demo.utils.JsonUtils;
 
 import lombok.SneakyThrows;
 
@@ -36,7 +35,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
             while ((str = br.readLine()) != null) {
                 sb.append(str);
             }
-            loginUserVO = JSON.parseObject(sb.toString(), LoginUserVO.class);
+            loginUserVO = JsonUtils.parseObject(sb.toString(), LoginUserVO.class);
             ValidatorHelper.valid(loginUserVO);
             LoginToken loginToken = new LoginToken(UserConvert.INSTANCE.vo2dto(loginUserVO), false);
             loginToken.setDetails(new WebAuthenticationDetails(request));

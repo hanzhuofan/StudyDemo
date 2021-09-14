@@ -2,7 +2,6 @@ package com.hzf.demo.common.config.security;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Component;
 import com.hzf.demo.common.Constants;
 import com.hzf.demo.common.Result;
 import com.hzf.demo.common.ResultEnum;
-import com.hzf.demo.utils.JSON;
+import com.hzf.demo.utils.JsonUtils;
 
 /**
  * @author zhuofan.han
@@ -25,6 +24,6 @@ public class LogoutResultHandler implements LogoutSuccessHandler {
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
         throws IOException {
         response.setContentType(Constants.CONTENT_TYPE);
-        response.getWriter().write(JSON.toJSONString(Result.of(ResultEnum.OUT)));
+        response.getWriter().write(JsonUtils.toJsonString(Result.of(ResultEnum.OUT)));
     }
 }

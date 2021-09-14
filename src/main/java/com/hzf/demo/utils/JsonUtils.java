@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -12,14 +11,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @date 2021/9/6
  */
 @Component
-public class JSON {
+public class JsonUtils {
     private static ObjectMapper mapper;
 
-    public JSON(ObjectMapper mapper) {
-        JSON.mapper = mapper;
+    public JsonUtils(ObjectMapper mapper) {
+        JsonUtils.mapper = mapper;
     }
 
-    public static String toJSONString(Object object) throws JsonProcessingException {
+    public static String toJsonString(Object object) throws IOException {
         return mapper.writeValueAsString(object);
     }
 
