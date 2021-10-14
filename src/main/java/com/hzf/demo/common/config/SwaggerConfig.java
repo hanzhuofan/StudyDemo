@@ -43,7 +43,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfoBuilder().title(swaggerProperties.getApplicationName() + "Restful APIs")
+        return new ApiInfoBuilder().title(swaggerProperties.getApplicationName() + " Restful APIs")
             .description(swaggerProperties.getApplicationDescription()).termsOfServiceUrl("http://localhost:8082/")
             .contact(new Contact("zhuofan.han", null, "310756323@qq.com"))
             .version("Application Version: " + swaggerProperties.getApplicationVersion() + ", Spring Boot Version: "

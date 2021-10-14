@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS demo.user
 insert into demo.user(username, password)
 values ('admin', '$2a$10$LPiHGgqwJJwHjDlpVzqBL.VCUge.Rin0AFKL0xn2sUY/e17zwiLPG');
 
-CREATE TABLE IF NOT EXISTS demo.roleDO
+CREATE TABLE IF NOT EXISTS demo.role
 (
     id      bigserial    NOT NULL,
     name    varchar(255) NOT NULL unique,
